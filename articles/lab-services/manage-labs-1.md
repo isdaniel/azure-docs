@@ -3,9 +3,12 @@ title: View and delete labs in a lab account in Azure Lab Services
 description: Learn how to view all labs in a lab account and delete a lab from the lab account. 
 ms.topic: how-to
 ms.date: 06/26/2020
+ms.custom: sfi-image-nochange
 ---
 
 # Manage labs in a lab account
+
+[!INCLUDE [Retirement guide](./includes/retirement-banner.md)]
 
 [!INCLUDE [preview note](./includes/lab-services-labaccount-focused-article.md)]
 

@@ -1,9 +1,9 @@
----
+﻿---
 title: Set resource dependencies in Bicep
 description: Describes how to specify the order resources are deployed.
-ms.topic: conceptual
+ms.topic: article
 ms.custom: devx-track-bicep
-ms.date: 03/20/2024
+ms.date: 10/30/2025
 ---
 
 # Resource dependencies in Bicep
@@ -49,7 +49,26 @@ A resource that includes the [parent](./child-resource-name-type.md) property ha
 
 The following example shows a storage account and file service. The file service has an implicit dependency on the storage account.
 
-:::code language="bicep" source="~/azure-docs-bicep-samples/syntax-samples/child-resource-name-type/outsidedeclaration.bicep" range="1-13":::
+```bicep
+resource storage 'Microsoft.Storage/storageAccounts@2025-06-01' = {
+  name: 'examplestorage'
+  location: resourceGroup().location
+  kind: 'StorageV2'
+  sku: {
+    name: 'Standard_LRS'
+  }
+}
+
+resource service 'Microsoft.Storage/storageAccounts/fileServices@2025-06-01' = {
+  name: 'default'
+  parent: storage
+}
+
+resource share 'Microsoft.Storage/storageAccounts/fileServices/shares@2025-06-01' = {
+  name: 'exampleshare'
+  parent: service
+}
+```
 
 When an implicit dependency exists, **don't add an explicit dependency**.
 
@@ -63,7 +82,7 @@ The following example shows a DNS zone named `otherZone` that depends on a DNS z
 
 ```bicep
 resource dnsZone 'Microsoft.Network/dnszones@2023-07-01-preview' = {
-  name: 'demoeZone1'
+  name: 'demoZone1'
   location: 'global'
 }
 
@@ -89,3 +108,4 @@ Visual Studio Code provides a tool for visualizing the dependencies. Open a Bice
 ## Next steps
 
 For the syntax to deploy a resource, see [Resource declaration in Bicep](resource-declaration.md).
+
